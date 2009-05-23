@@ -32,23 +32,26 @@ $config['Templates'] = $config['Database_table_prefix'] . 'templates';
 $config['Blocks'] = $config['Database_table_prefix'] . 'blocks';
 
 // The folder where the Template Blocks files are located - no trailing slash please...
-$config['Template_dir'] 	=  'template';
+$config['Template_dir'] = 'template';
 
 // Title of the website...
-$config['Website'] 	=  'Website Title';
+$config['Website'] = 'Website Title';
 
 // Full URL path to the favicon - delete if none...
-$config['Favicon'] 	=  '/favicon.ico';
+$config['Favicon'] = '/favicon.ico';
 
 // Full URL pathto RSS feed - delete if none...
-$config['Rss_feed'] 	=  '/rss.xml';
+$config['Rss_feed'] = '/rss.xml';
 
 // Configure the operation of Template Blocks
-$config['Admin_user'] 	=  '';
-$config['Admin_password'] 	=  '';
-$config['Admin_tips'] 	=  'on';
+$config['Admin_user'] = '';
+$config['Admin_password'] = '';
+$config['Admin_tips'] = 'on';
 
 // Used for internal use...
-$config['Version'] 	=  '1.0';
+$config['Version'] = '1.1';
+
+$config['Exception_list'] = '';
+
 
 ?>

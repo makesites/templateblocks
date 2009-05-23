@@ -1,0 +1,43 @@
+<h2 class="float-left">$heading</h2>
+
+<div class="actions">
+  <a href="javascript:void(0)" onclick="gotoPage('sections&action=edit')">Add New</a> | 
+  <a href="javascript:void(0)" onclick="gotoPage('sections')">Back</a>
+</div>
+
+<div id="info">
+$info
+  <div id="feedback">&nbsp;</div>
+</div>
+
+<form action="admin.php" method="post" name="sections-edit" id="sections-edit" onsubmit="validateForm(this); return false;">
+  <label>ID:</label> <span class="textfield">$id</span>
+  <input type="hidden" name="section_id" id="section_id" value="$id" />
+  <label for="section_title">Title:</label>
+  <input type="text" name="section_title" id="section_title" value="$title" class="textfield" />
+  <label for="section_slug">Slug:</label>
+  <input type="text" name="section_slug" id="section_slug" value="$slug" class="textfield" />
+  <label for="section_template">Template:</label>
+  <select name="section_template" id="section_template">
+{{LIST_TEMPLATES}}
+  </select>
+  <label for="section_content">Content:</label>
+  <div class="textfield"><input type="checkbox" name="is_external" id="is_external" onclick="changeContent('external')" /> I want to use an external script</div>
+  <div class="clear" id="section-content">
+    <textarea name="section_content" id="section_content" class="content-wide">$content</textarea>
+  </div>
+  
+  <input type="hidden" name="page" id="page" value="sections" />
+  <input type="hidden" name="action" id="action" value="$action" />
+
+  <div class="clear"><!-- --></div>
+  <div class="submit-buttons">
+    <input type="submit" value="$button_label" />
+    <input type="submit" value="Delete" onclick="deleteEntry(getElementById('sections-edit')); return false;" />
+  </div>
+
+</form>
+
+<script type="text/javascript">
+  checkSection();
+</script>

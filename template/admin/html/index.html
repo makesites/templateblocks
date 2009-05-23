@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>$Website - Template Administration</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <link rel="stylesheet" href="admin/css/styles.css" type="text/css" media="screen" />
+  <!--[if IE]>
+  <link rel="stylesheet" href="admin/css/styles_ie.css" type="text/css" media="screen" />
+  <![endif]-->
+  <script src="admin/js/prototype.js" type="text/javascript"></script>
+  <script src="admin/js/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+  <script src="admin/js/admin.js" type="text/javascript"></script>
+  <script src="admin/js/forms.js" type="text/javascript"></script>
+</head>
+<body onload="gotoPage('home');">
+<div id="container">
+
+  <div id="header">
+    <h1>$Website</h1>
+	<div class="actions">
+	  <ul id="top-links">
+	    <li><a href="/">View site</a></li>
+	    <li><a href="javascript:void(0)" onClick="gotoPage('settings');">Settings</a></li>
+	    <li><a href="admin.php?action=logout">Logout</a></li>
+	  </ul>
+	</div>
+  </div>
+    <!--Tabs Start -->
+    <div id="tabs">
+      <ul>
+        <li id="tab-home"><a href="javascript:void(0)" onClick="gotoPage('home');"><span>Home</span></a></li>
+        <li id="tab-sections"><a href="javascript:void(0)" onClick="gotoPage('sections')" ><span>Sections</span></a></li>
+        <li id="tab-templates"><a href="javascript:void(0)" onclick="gotoPage('templates')"><span>Templates</span></a></li>
+        <li id="tab-blocks"><a href="javascript:void(0)" onClick="gotoPage('blocks')"><span>Blocks</span></a></li>
+      </ul>
+    </div>
+    <!--Tabs End -->
+
+  <!-- Content Start -->
+  <div id="content">
+
+  </div>
+  <!--Content End -->
+  
+  <div id="footer">
+    Website powered by <a href="http://www.templateblocks.com/">Template Blocks</a>
+  </div>
+
+
+</div>
+
+</body>
+</html>

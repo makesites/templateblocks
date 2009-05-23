@@ -21,7 +21,7 @@ require( 'config.php' );
 
 // don't accept direct requests
 if( eregi($config['Template_dir'].'/index.php', $_SERVER['PHP_SELF'])) {
-	header('Refresh: 0;url=/index.php');
+	header('Refresh: 0;url=/');
 	exit;
 }
 
@@ -31,10 +31,10 @@ if (file_exists($config['Template_dir'].'/setup')) {
 	exit;
 }
 
-// load all used classes
-require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/admin/classes/Database.php' );
-require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/admin/classes/Common.php' );
-require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/admin/classes/Website.php' );
+// load all the classes we'll use
+require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/classes/Database.php' );
+require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/classes/Common.php' );
+require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/classes/Website.php' );
 
 $template_blocks = new Website();
 $template_blocks->section = $GLOBALS['section'];

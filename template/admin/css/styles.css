@@ -1,0 +1,315 @@
+/* Basic tags */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #f9f9f9 top left no-repeat;
+  color: #666;
+  font: normal 14px Arial, Verdana, Tahoma, sans-serif;
+}
+
+p {
+  margin-bottom: 8px;
+}
+
+a {
+  color: #463;
+}
+
+a img {
+  border: 0;
+}
+
+h1{ 
+  color: #666;
+  font-size: 26px;
+}
+
+h2{ 
+  color: #666;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+h3{ 
+  font-size: 16px;
+}
+
+input, select {
+  font: normal 14px Arial, Verdana, Tahoma, sans-serif;
+}
+
+
+/* Template */
+#header{
+  height: 40px;
+  background: #88dd00;
+  border-bottom: solid 1px #ccc;
+}
+
+#header h1{
+  float: left;
+  padding: 4px;
+  color: #fff;
+}
+
+#header #top-links{
+  list-style-image: url(../images/bullet.gif);
+}
+
+#header #top-links li {
+  float: left;
+  width: 100px;
+}
+
+#tabs{
+  width: 400px;
+  height: 32px;
+  margin: 0 auto;
+  margin-top: 8px;
+}
+
+#tabs ul{
+  font-size: 20px;
+  font-weight: bold;
+  list-style:none;
+}
+
+#tabs li{
+  display:inline;
+  margin:0 4px 0 0;
+}
+
+#tabs a{
+  float:left;
+  margin:0 4px 0 0;
+  padding:0 0 1px 3px;
+  text-decoration:none;
+}
+
+#tabs a span{
+  float:left;
+  display:block;
+  padding:4px 9px 2px 6px;
+}
+
+#tabs a span{
+  float:none;
+}
+
+#tabs a:hover{
+  background-color: #444;
+  color: #fff;
+}
+
+.tab-default {
+  background: #eee; 
+  color:#999;
+}
+
+.tab-selected {
+  background:#5a0;
+  color:#fff;
+}
+
+#content{
+  width: 75%;
+  margin: 0 auto;
+  border: solid 1px #ccc;
+  padding: 8px;
+}
+
+.actions{
+  float: right;
+  padding: 8px;
+}
+
+
+#footer {
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* Content styles */
+
+#info {
+  clear: both;
+}
+
+#feedback {
+  padding: 8px;
+}
+
+label {
+  display: block;
+  float: left;
+  clear: left;
+  width: 200px;
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.textfield, select, textarea{
+  float: left;
+  margin-top: 8px;
+  width: 300px;
+}
+
+#sections, #sections ul, #blocks-head, #blocks-body, #blocks-other {
+  padding: 8px; 
+  border: 1px solid #ccf;
+  list-style-type: none;
+}
+#blocks-other {
+  height: 240px;
+}
+#sections li  {
+ margin-bottom:4px;
+ padding:5px;
+ border: 1px solid #999;
+ font-size: 16px;
+}
+
+.list {
+  width:300px;
+  margin:0 auto;
+  list-style-type: none;
+}
+
+.list li, #blocks-head li, #blocks-body li {
+  margin-bottom:4px;
+  padding:5px;
+  border:1px solid #999;
+  font-size: 16px;
+}
+
+#login, #blocks-edit, #templates-edit, #sections-edit, .settings {
+  width: 550px;
+  margin: auto;
+}
+
+#blocks-head li, #blocks-body li {
+  height: 22px;
+}
+
+#blocks-head li span, #blocks-body li span {
+  display: block;
+  float: left;
+}
+
+#blocks-other li {
+  float: left;
+  width: 100px;
+  height: 100px;
+  padding:4px;
+  margin: 4px;
+  border:1px solid #999;
+  font-size: 16px;
+}
+
+textarea.content-wide {
+  clear: both;
+  width: 540px;
+  height: 400px;
+}
+
+textarea.content-wide-short {
+  clear: both;
+  width: 540px;
+  height: 200px;
+}
+
+.submit-buttons {
+  text-align: center;
+  padding-top: 16px;
+}
+
+.submit-buttons input {
+  padding: 4px;
+  border: solid 1px #999;
+  background: #eee;
+  color: #666;
+  font-size: 24px;
+}
+
+.delete-icon {
+  float: right;
+}
+
+.item_CSS {
+  background: #ffe url(../images/blocks/back-css.gif) right bottom no-repeat;
+}
+
+.item_HTML {
+  background: #efe url(../images/blocks/back-html.gif) right bottom no-repeat;
+}
+
+.item_PHP {
+  background: #eff url(../images/blocks/back-php.gif) right bottom no-repeat;
+}
+
+.item_JavaScript {
+  background: #fee url(../images/blocks/back-javascript.gif) right bottom no-repeat;
+}
+
+
+/* Common styles */ 
+
+.clear {
+  clear: both;
+}
+
+.back-grey {
+  background: #eee;
+}
+
+.red {
+  color: #f00;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.float-left {
+  float: left;
+}
+
+.bullet, .bullet li {
+  margin: 8px;
+  padding: 8px;
+}
+
+.sort {
+  cursor:move;
+}
+
+.title-with-line{
+  border-bottom: solid 1px #ccc;
+  margin-bottom: 8px;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff url(../images/loading.gif) center no-repeat;
+  opacity:.0; 
+  filter: alpha(opacity=0); 
+  -moz-opacity: 0;
+  z-index: 5100;
+}
+
+.box {
+  border: solid 1px #ccc;
+  padding: 8px;
+}

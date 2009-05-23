@@ -27,15 +27,6 @@ p {
   margin-bottom: 8px;
 }
 
-.line {
-  height: 1px;
-  background: #aaa;
-}
-
-.line hr {
-  display: none; 
-}
-
 
 /* Layout */
 
@@ -143,11 +134,31 @@ p {
   text-decoration: underline;
 }
 
-/* Other Styles */
+
+/* Common Styles */
+
+.clear {
+  clear: both;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.float-left {
+  float: left;
+}
 
 .credit {
   text-align: left;
   font-size: 10px;
 }
 
+.line {
+  height: 1px;
+  background: #aaa;
+}
 
+.line hr {
+  display: none; 
+}

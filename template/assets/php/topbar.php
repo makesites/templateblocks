@@ -5,6 +5,7 @@ if( is_array($items) ){
   $children = array();
   foreach( $items as $k => $v ){
     preg_match('/(.*)\((.*)\)/', $v['position'], $matches);
+
     if($matches[2] == 'x') {
       array_push($children[$matches[1]], $v['id']);
     } else {
@@ -17,25 +18,27 @@ echo '<div id="topbar">';
 echo $output;
 echo '</div>';
 
-function createOrder( $items, $order, $parent=0 ){
+function createOrder( $items, $order, $parent=0, $path='' ){
 
-  //ksort($order[$parent]); 
+  ksort($order[$parent]); 
 
   $listings .= '<ul>';
 
+  $middle = '</span></a>';
+  $close = '</li>';
   foreach( $order[$parent] as $k => $v ){
     foreach( $items as $l => $w ){
       // now we can create the listings
       if( $w['id'] == $v ){
-        $open = '<li><a href="/'. $w['slug'] .'.html"><span>';
+        $open = '<li><a href="/'. $path . $w['slug'] .'.html"><span>';
         // check for children in this branch
         if (array_key_exists($w['id'], $order)) {
-	  $children = createOrder( $items, $order, $w['id'] );
-	} else {
-	  $children = '';
-	}
-	$close = '</span></a></li>';
-	$listings .= $open . $w['title'] . $children . $close;
+		  $new_path = $path . $w['slug'] . '/';
+	      $children = createOrder( $items, $order, $w['id'], $new_path );
+	    } else {
+	      $children = '';
+	    }
+	  $listings .= $open . $w['title'] . $middle .  $children . $close;
       }
     }
   }

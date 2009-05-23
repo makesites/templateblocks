@@ -17,13 +17,17 @@
  * Template Blocks: Setup
  */
 
+// first of all, quit if the server is running on PHP <5
+if( phpversion() < '5.0' ){
+  die('Your server is running the setup with PHP v' . phpversion() . ' - you will need at least PHP 5 to use Template Blocks.');
+}
 
 // get the configuration file
 require( '../config.php' );
 
 // load all used classes
-require( '../admin/classes/Database.php' );
-require( '../admin/classes/Common.php' );
+require( '../classes/Database.php' );
+require( '../classes/Common.php' );
 
 // get an instance of the classes
 $db = new Database();
@@ -41,19 +45,21 @@ foreach( $_REQUEST as $k => $v ){
 if( !$page ) {
   // an extra variable in case we want to run the setup for a second time
   if( $overide_check ){
-      $homepage = 'welcome';
+    $homepage = 'welcome';
+  } elseif ( $update ) {
+    doUpdate();
   } else {
     $already_setup = $db->testConnection();
-    if( !$already_setup ){
-      $homepage = 'welcome';
-    } else {
+    if( $already_setup ){
       $homepage = 'already_setup';
+    } else {
+      $homepage = 'welcome';
     }
   }
 }
 
 if( $mode == 'write' ) {
-  writeConfig();
+  validateInput();
 } elseif ( $mode == 'run_sql') {
   createTables();
 } else {
@@ -62,7 +68,7 @@ if( $mode == 'write' ) {
 
 ## The initial function, loading up the HTML resource files (if necessary) and redirecting accordingly 
 function showPage(){
-  global $common, $config, $html, $homepage;
+  global $common, $config, $homepage;
 
   // convert all variables in a form we can process them inside the HTML files
   foreach( $_REQUEST as $k => $v ){
@@ -92,7 +98,25 @@ function showPage(){
 
 }
 
-## As a second step, figure out for each occassion  what needs updating in the html files previously loaded
+## Check the data entered
+function validateInput(){
+global $db, $html;
+
+  // do a check by step
+  if( $_REQUEST['step'] == '2' ){
+    $db_details = $db->testConnection( $_REQUEST['database_server'], $_REQUEST['database_name'], $_REQUEST['database_user'], $_REQUEST['database_password'] );
+    if( !$db_details ){
+      echo $html['Error']['Database_Details'];
+	  exit();
+    }
+  }
+
+  // update the config file if all is well
+  writeConfig();
+
+}
+
+## Do the necessary updating in the config file
 function writeConfig(){
   global $common, $config;
   
@@ -111,9 +135,10 @@ function writeConfig(){
     $old_line = substr($output, $start, $length);
     $output = str_replace($old_line, $new_line, $output);
   }
-  $common->writeFile( '../config.php', $output );
+  file_put_contents('../config.php', $output, LOCK_EX);
 }
 
+## Create the database strucutre
 function createTables(){
   global $db, $common, $config;
   
@@ -129,5 +154,51 @@ function createTables(){
   
 }
 
+function  doUpdate( $version = false){
+  global $db, $common, $config, $html, $homepage;
+
+  if( !$version ){
+    $version = $config['Version'];
+  }
+  
+  if( $version == '1.0' ){
+    // 1 . change the config file: a version number and a new variable
+    $output = $common->readHTML( '../config.php' );
+
+    $variable = "\$config['Version']";
+    $new_part  = "\$config['Version'] = '1.1';\n\n";
+    $new_part .= "\$config['Exception_list'] = '';\n";
+
+	$start = strpos($output, $variable);
+    $length = strpos($output, "\n", $start) - $start;
+    $old_part = substr($output, $start, $length);
+    $output = str_replace($old_part, $new_part, $output);
+    file_put_contents('../config.php', $output, LOCK_EX);
+
+	// 2. move the sceleton html file outside the html folder
+	
+	// rename original script file 
+	$old_file = $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/assets/html/template.html';
+	$new_file = $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/assets/default.html';
+
+	if( file_exists( $old_file ) ){ 
+	  rename( $old_file, $new_file ); 
+	}
+	  // write our new file in it's place...
+	  //file_put_contents($original_file, $script, LOCK_EX);
+	//} else {
+	  // delete old file if necessary
+	  //unlink($original_file);
+	  //rename( $renamed_file, $original_file );
+	//}
+
+    // and redirect to the final page of the setup process
+    $homepage = 'finish';
+  } else {
+    // couldn't determine the exact version - you should start the whole process again
+    $homepage = 'welcome';
+  }
+
+}
 
 ?>

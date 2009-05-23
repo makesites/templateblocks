@@ -27,10 +27,10 @@ if (file_exists('setup') && !$_REQUEST['del-setup'] ) {
 	exit;
 }
 
-// load all used classes
-require( 'admin/classes/Database.php' );
-require( 'admin/classes/Common.php' );
-require( 'admin/classes/Admin.php' );
+// load all the classes we'll use
+require( 'classes/Database.php' );
+require( 'classes/Common.php' );
+require( 'classes/Admin.php' );
 
 $template_blocks = new Admin();
 $template_blocks->showPage();

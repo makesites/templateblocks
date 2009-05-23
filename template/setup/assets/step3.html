@@ -5,7 +5,7 @@
 
   <p>The help tips are recommended for first-time users as they provide step-by-step assistance while using the administration interface.</p>
 
-  <p id="feedback"></p>
+  <p id="feedback">&nbsp;</p>
 </div>
 
 <form action="index.php" method="post" name="setup-step3" id="setup-step3" class="settings" onsubmit="validateForm(this); return false;">
@@ -14,7 +14,7 @@
   <label for="admin_password">Admin Password: <span class="red">*</span></label>
   <input type="text" name="admin_password" id="admin_password" value="$Admin_password" class="textfield" />
   <label for="admin_tips">Show Help tips:</label>
-  <input type="checkbox" name="admin_tips" id="admin_tips" class="float-left" style="margin-top: 10px;" {{CHECKED}}/>
+  <div class="float-left" style="width: 100px; margin-top: 10px;"><input type="checkbox" name="admin_tips" id="admin_tips" {{CHECKED}}/></div>
 
   <input type="hidden" name="step" id="step" value="3" />
   <input type="hidden" name="mode" id="mode" value="write" />
@@ -25,10 +25,3 @@
   </div>
 
 </form>
-
-
-
-<div id="info">
-  
-  
-</div>

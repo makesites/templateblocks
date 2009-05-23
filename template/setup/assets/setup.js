@@ -8,22 +8,23 @@ error['no_database_user'] = 'Enter the username to log in to the database';
 error['no_database_password'] = 'Enter the password to log in to the database';
 error['no_admin_user'] = 'You need to enter an admin user to use Template Blocks';
 error['no_admin_password'] = 'You need to enter an admin password to use Template Blocks';
+error['data_not_saved'] = 'Could not save your data. Please make sure all files were uploaded properly and try again.';
 
 var tabs = new Array('welcome','step1','step2','step3');
 
 
 function gotoPage(page) {
 
+  if( !document.getElementById('loading') ){ showLoading(); }
+
   var url = 'index.php?page='+page;
-  new Ajax.Updater('content', url, {onComplete:function(){ },asynchronous:true, evalScripts:true});
+  new Ajax.Updater('content', url, {onComplete:function(){ hideLoading(); },asynchronous:true, evalScripts:true});
   // update the tabs
   for(i=0;i<4;i++){
     if(tabs[i] != page) {
-      document.getElementById('tab-'+tabs[i]).firstChild.setAttribute('class','tab-default');
-      //document.getElementById('tab-'+tabs[i]).firstChild.style.background = '#aaaaaa';
+      document.getElementById('tab-'+tabs[i]).firstChild.className = 'tab-default';
 	} else {
-      document.getElementById('tab-'+tabs[i]).firstChild.setAttribute('class','tab-selected');
-      //document.getElementById('tab-'+tabs[i]).firstChild.style.background = '#ffffff';
+      document.getElementById('tab-'+tabs[i]).firstChild.className = 'tab-selected';
 	}
   }
 
@@ -31,7 +32,6 @@ function gotoPage(page) {
 
 function validateForm(form)
 {
-
   if( form.name == 'setup-step1' ) {
     if( form.website.value == "" ) {
       showFeedback(error['no_website_title'], 'yellow');
@@ -74,35 +74,36 @@ function validateForm(form)
 }
 
 function submitForm(form) {
-  
+
   var next_step = Number(form.step.value)+1;
 
-  form.request({
-    onSuccess: function(t) {
-    },
-    // Handle 404
-    on404: function(t) {
-    },
-    // Handle other errors
+  showLoading();
+
+  new Ajax.Request('index.php', {
+    parameters: Form.serialize(form),
     onFailure: function(t) {
+        showFeedback(error['data_not_saved'], 'red');
+		hideLoading();
     },
-    onComplete: function(t){ 
-	  if(next_step<=3){
+    onSuccess: function(t){ 
+      if ( t.responseText ){
+        showFeedback(t.responseText, 'red');
+		hideLoading();
+      } else if( next_step < 4 ){
 	    gotoPage('step'+next_step);
-	  } else if (next_step<=4) {
+	  } else {
 	    new Ajax.Request('index.php?mode=run_sql');
 	    gotoPage('finish');
 	  }
 	}
   });
-  
 }
 
 function showFeedback(text, color) {
   var feedback = document.getElementById('feedback');
-  if( feedback.style.display == 'none' ){
+  if( feedback.style.visibility == 'hidden' ){
     feedback.style.background = '#ffffff';
-    feedback.style.display = 'block';
+	feedback.style.visibility = 'visible';
   }
   switch(color) {
     case 'red':
@@ -119,6 +120,27 @@ function showFeedback(text, color) {
 	  break;
   }
   feedback.innerHTML = text;
-  new Effect.Highlight('feedback', {startcolor:'#ffffff', endcolor:hex_color, restorecolor:hex_color, afterFinish:function(){ new Effect.Fade('feedback'); }});
+  new Effect.Highlight('feedback', {startcolor:'#ffffff', endcolor:hex_color, restorecolor:hex_color, afterFinish:function(){ if( color == 'green' ){ new Effect.Opacity('feedback', { from: 1, to: 0, afterFinish:function(){ feedback.style.visibility = 'hidden'; }}); } }});
 }
 
+function showLoading() {
+	// get basic browser properties 
+	var pageBody = document.getElementsByTagName("body").item(0);
+	// start creating the div structure 
+	var loadScreen = document.createElement("div");
+	loadScreen.setAttribute('id','loading');
+	loadScreen.className = 'loading';
+	pageBody.appendChild(loadScreen);
+	new Effect.Appear('loading', { from:0.0, to: 0.8, duration:0.3 });
+}
+
+function hideLoading() {
+	new Effect.Fade('loading', { duration:0.5, afterFinish: function(){
+	    // hide the loadind screen
+	    var pageBody = document.getElementsByTagName("body").item(0);
+	    var loadScreen =document.getElementById('loading');
+	    loadScreen.style.display = 'none';
+	    pageBody.removeChild(loadScreen);
+      }
+	});
+}

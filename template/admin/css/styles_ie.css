@@ -1,0 +1,7 @@
+/* IE can't show the bullet image on floated list elements */
+#header #top-links li {
+  list-style:none;
+  padding-left:16px;
+  width: 84px;
+  background:url(../images/bullet.gif) no-repeat left center;
+}
