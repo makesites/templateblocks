@@ -22,11 +22,14 @@ class Admin {
 
   # Call constructor
   function __construct() {
-
     global $db, $common, $config;
- 	// get an instance of the other classes
+
+	// connect to db
 	$db = new Database();
+ 	// get an instance of the other classes
 	$common = new Common();
+    // run under certain conditions
+	$common->checkPaths();
  	// see if all this is an authorized use of the script
 	$this->checkSession();
    // load some html parts we are going to use
@@ -89,6 +92,7 @@ class Admin {
 
 	// then add other variables used in the html files
 	$info = $this->getInfo('index');
+	$site_uri = $GLOBALS['SITE_URI'];
 	
     if( $_REQUEST['page'] == 'home' ) {
 	  $block_items = $db->select( '*', $config['Blocks'] );
@@ -105,7 +109,7 @@ class Admin {
     foreach( $config as $k => $v ){
 	  $$k = $v;
     }
-	
+
     if( preg_match('/\$listings/', $output) ) {
   	  $listings = $this->getListings();
     }
@@ -142,7 +146,7 @@ class Admin {
       // get the content from the external file on existing blocks
 	  if( $_REQUEST['page'] == 'blocks' ){
 	    $file = $common->makeBlockFile($title, $html['Block_type'][$type]);
-	    $content = addslashes( $common->readFile( $file ) );
+	    $content = htmlspecialchars( addslashes( $common->readFile( $file ) ) );
 	  }
 	} else {
 	  // this is a new element so set the action to 'add' and the rest of the variables accordingly
@@ -554,20 +558,20 @@ class Admin {
 	
 	$script = $common->readHTML(  'admin/php/external.php' );
 	$script = str_replace('{{SECTION}}', $_REQUEST['section_slug'], $script);
-	$script = str_replace('{{TEMPLATE_DIR}}', $config['Template_dir'], $script);
+	$script = str_replace('{{TEMPLATE_DIR}}', $GLOBALS['TEMPLATE_DIR'], $script);
 	$script = str_replace('{{FILENAME}}', $filename, $script);
 	
 	// get the custom class, if any
 	if( $_REQUEST['custom_class'] ){
-	  $custom_class = "include( \$_SERVER['DOCUMENT_ROOT'] . '/" . $config['Template_dir'] . "/classes/" . $_REQUEST['custom_class'] . "' );";
+	  $custom_class = "include( " . $GLOBALS['TEMPLATE_PATH'] . "/classes/" . $_REQUEST['custom_class'] . "' );";
     } else {
 	  $custom_class = '';
 	}
 	$script = str_replace('{{CUCTOM_CLASS}}', $custom_class, $script);
 
 	// rename original script file 
-	$original_file = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['section_content'];
-	$renamed_file = $_SERVER['DOCUMENT_ROOT'] . str_replace( end($uri_parts), $filename.'-original.php', $_REQUEST['section_content'] );
+	$original_file = $GLOBALS['DOCUMENT_ROOT'] . $_REQUEST['section_content'];
+	$renamed_file = $GLOBALS['DOCUMENT_ROOT'] . str_replace( end($uri_parts), $filename.'-original.php', $_REQUEST['section_content'] );
 
 	if( $write ){ 
 	  if( !file_exists( $renamed_file ) ){ rename( $original_file, $renamed_file ); }

@@ -49,7 +49,7 @@ $config['Admin_password'] = '';
 $config['Admin_tips'] = 'on';
 
 // Used for internal use...
-$config['Version'] = '1.1';
+$config['Version'] = '1.2';
 
 $config['Exception_list'] = '';
 

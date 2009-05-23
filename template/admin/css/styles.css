@@ -69,7 +69,7 @@ input, select {
 }
 
 #tabs{
-  width: 400px;
+  width: 420px;
   height: 32px;
   margin: 0 auto;
   margin-top: 8px;
@@ -259,6 +259,11 @@ textarea.content-wide-short {
   background: #fee url(../images/blocks/back-javascript.gif) right bottom no-repeat;
 }
 
+#template-layout ul ul {
+	clear: both; 
+	padding: 8px; 
+	position: relative;
+}
 
 /* Common styles */ 
 

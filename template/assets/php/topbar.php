@@ -30,7 +30,7 @@ function createOrder( $items, $order, $parent=0, $path='' ){
     foreach( $items as $l => $w ){
       // now we can create the listings
       if( $w['id'] == $v ){
-        $open = '<li><a href="/'. $path . $w['slug'] .'.html"><span>';
+        $open = '<li><a href="./'. $path . $w['slug'] .'.html"><span>';
         // check for children in this branch
         if (array_key_exists($w['id'], $order)) {
 		  $new_path = $path . $w['slug'] . '/';

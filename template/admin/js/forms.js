@@ -141,7 +141,7 @@ function showResponse(t) {
     // login successful - redirect to the admin page
 	window.location="admin.php";
   } else {
-    showFeedback('Form data saved!', 'green');
+    showFeedback('Your data have been saved!', 'green');
   }
 
 }

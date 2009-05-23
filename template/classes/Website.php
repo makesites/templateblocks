@@ -27,13 +27,12 @@ class Website {
   function __construct() {
     global $db, $common, $config;
 
- 	// get an instance of the other classes
-	$common = new Common();
 	// Connect to db
 	$db = new Database();
+ 	// get an instance of the other classes
 	$common = new Common();
-   // load some html parts we are going to use
-    require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/admin/php/content.php' );
+    // load some html parts we are going to use
+    require( $GLOBALS['TEMPLATE_PATH'] . '/admin/php/content.php' );
 	// Define public variables
     $this->head_blocks = array();
     $this->body_blocks = '';
@@ -100,7 +99,7 @@ class Website {
 	$body_blocks =  explode( '|', $blocks[1] );
 
 	// load the template
-	$template = $common->readHTML( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/assets/default.html' );
+	$template = $common->readHTML( $GLOBALS['TEMPLATE_PATH'] . '/assets/default.html' );
 
 	// Make the necessary replacements
 	$template = str_replace("{{DOCTYPE}}", $html['Doctype'][$template_attributes[0]['type']], $template);
@@ -122,11 +121,11 @@ class Website {
 
 	switch($attributes[0]['type']) {
 	  case "CSS":
-	    $file = substr( $file, strlen($_SERVER['DOCUMENT_ROOT']) );
+	    $file = $common->getURI( $file );
 	    $output = $html['Indent'] . '<link rel="stylesheet" type="text/css" href="' . $file . '"' . $this->end_tag . '>' . "\n";
         break;
       case "JavaScript":
-	    $file = substr( $file, strlen($_SERVER['DOCUMENT_ROOT']) );
+	    $file = $common->getURI( $file );
         $output = $html['Indent'] . '<script type="text/JavaScript" src="' . $file . '"></script>' . "\n";
         break;
       case "HTML":
@@ -222,7 +221,7 @@ class Website {
 	  return false;
 	} else {
 	  // determine the parent
-	  $parent = ( is_array($parent) ) ? end($parent_list) : '';
+	  $parent = ( is_array($parent_list) ) ? end($parent_list) : '';
 	  if( $parent != '' ){
 	    foreach($sections as $item){
 	      if( $item['slug'] == $parent ){ $parent_id = $item['id']; }

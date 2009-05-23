@@ -2,12 +2,12 @@
 /**
  * TEMPLATE BLOCKS
  * Copyright (C) 2008 Makis Tracend
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,26 +15,13 @@
  * http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
-
 // get the configuration file
-require( 'config.php' );
-
-// don't accept direct requests
-if( eregi($config['Template_dir'].'/index.php', $_SERVER['PHP_SELF'])) {
-	header('Refresh: 0;url=/');
-	exit;
-}
-
-// redirect if there is a setup folder 
-if (file_exists($config['Template_dir'].'/setup')) {
-	header('Refresh: 0;url='.$config['Template_dir'].'/setup/index.php');
-	exit;
-}
+require( dirname(__FILE__) . '/config.php' );
 
 // load all the classes we'll use
-require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/classes/Database.php' );
-require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/classes/Common.php' );
-require( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/classes/Website.php' );
+require( dirname(__FILE__) . '/classes/Common.php' );
+require( dirname(__FILE__) . '/classes/Database.php' );
+require( dirname(__FILE__) . '/classes/Website.php' );
 
 $template_blocks = new Website();
 $template_blocks->section = $GLOBALS['section'];

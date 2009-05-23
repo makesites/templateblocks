@@ -68,8 +68,8 @@ if (document.all) { Droppables.drops = [] }
 
 {{BLOCKS_DRAGGABLE}}
 
-Sortable.create("blocks-head", { onChange: function(){ updateBlocksField()} })
-Sortable.create("blocks-body", { onChange: function(){ updateBlocksField()} })
+Sortable.create("blocks-head", { scroll:window, onChange: function(){ updateBlocksField()} })
+Sortable.create("blocks-body", { scroll:window, onChange: function(){ updateBlocksField()} })
 
 Droppables.add("blocks-head", {
   accept: ['item_CSS','item_HTML','item_PHP','item_JavaScript'], hoverclass:'back-green', 

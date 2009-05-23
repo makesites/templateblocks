@@ -19,7 +19,13 @@
 
 
 class Common {
-  
+
+  # Call constructor
+  function __construct() {
+ 	// Get the root and template paths
+	$this->getPaths();
+  }
+
   # Read a template file
   function readHTML( $url ){
 
@@ -44,13 +50,11 @@ class Common {
   }
   
   # Read an XML file
-  function getXML( $url ) {
-    global $db, $common, $config;
+  function getXML( $url ){
 
-    $cache_dir = $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/admin/cache/';
-	$filename = $this->makeFilename( $url );
-	$filename = str_replace( array('http','www','xml','rss2') , '', $filename);
-	$cache_file = $cache_dir . $filename . '.xml';
+    $cache_dir = realpath( $GLOBALS['TEMPLATE_PATH'] . '/admin/cache/');
+	$filename = str_replace( array('http','www','xml','rss2') , '', $this->makeFilename( $url ));
+	$cache_file = $cache_dir . '/' . $filename . '.xml';
 
   	if (file_exists( $cache_file ) && strlen(file_get_contents($cache_file)) > 0 ) {
 		$time_difference = @(time() - filemtime( $cache_file ));
@@ -68,17 +72,16 @@ class Common {
   }
 
   # Compile the path of a block file
-  function makeBlockFile( $title, $type ) {
-    global $config;
-	
+  function makeBlockFile( $title, $type ){
+
 	$name = $this->makeFilename( $title );
-	$file = strtolower( $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/assets/' . $type . '/' . $name . '.' . $type );
+	$file =  strtolower( realpath( $GLOBALS['TEMPLATE_PATH'] . '/assets/' . $type . '/' ) . '/' . $name . '.' . $type ) ;
 	
 	return $file;
   }
 
   # Get the path of a block
-  function getBlockFile( $id ) {
+  function getBlockFile( $id ){
     global $db, $config, $html;
 	
 	$where = array( 'id' => $id);
@@ -89,8 +92,8 @@ class Common {
   }
 
   # Execute a piece of php code
-  function phpExecute( $content ) {
-    global $db, $common, $config, $html;
+  function phpExecute( $content ){
+    global $db, $config, $common, $html;
 
     ob_start();
     $content = str_replace('<'.'?php','<'.'?',$content);
@@ -101,7 +104,7 @@ class Common {
   }
 
   # Indent the content
-  function putIndent( $content ) {
+  function putIndent( $content ){
     global $html;
     // a simple replacement for now...
     $content = str_replace("\n", "\n".$html['Indent'], $content);
@@ -110,7 +113,7 @@ class Common {
   }
 
   # Remove special characters from string to create filename
-  function makeFilename( $string ) {
+  function makeFilename( $string ){
 
 	// first let's make the title a valid filename
     $characters_match = array(' ','--','&quot;','!','@','#','$','%','^','&','*','(',')','+','{','}','|',':','"','<','>','?','[',']','\\',';',"'",',','.','/','*','+','~','`','=');
@@ -119,6 +122,61 @@ class Common {
 	
     return $string;
 
+  }
+
+
+  function getPaths(){
+    global $config;
+
+    // register the paths a global variables
+	//
+	// fix the registered server path in case there is a trailing slash
+	$GLOBALS['DOCUMENT_ROOT'] = ( substr($_SERVER['DOCUMENT_ROOT'], -1) == '/' || substr($_SERVER['DOCUMENT_ROOT'], -1) == '\\' ) ? realpath( substr($_SERVER['DOCUMENT_ROOT'], 0, -1) ) : realpath( $_SERVER['DOCUMENT_ROOT'] );
+	// the template path is this path removing the "/classes" dir
+	$GLOBALS['TEMPLATE_PATH'] = substr( realpath( dirname(__FILE__) ) , 0, -8 );
+	// the template directory is the template path minus the document root path
+	$GLOBALS['TEMPLATE_DIR'] = substr( str_replace($GLOBALS['DOCUMENT_ROOT'], '', $GLOBALS['TEMPLATE_PATH']), 1);
+	// the template URI is the same as it's directory, replacing the \ paths in windows machines
+	$GLOBALS['TEMPLATE_URI'] = str_replace('\\', '/', $GLOBALS['TEMPLATE_DIR']);
+	// the site uri is calculated from the template location relative to where the index.php lives (this is to cover more extreme uses of the script)
+	$GLOBALS['SITE_URI'] = '/' . str_replace( $config['Template_dir'], '', $GLOBALS['TEMPLATE_DIR'] );
+	// now that we've got all the paths, make comparisons and run under certain conditions
+    $this->checkPaths();
+
+  }
+
+
+  function checkPaths(){
+    global $config;
+
+    $setup_folder = realpath($GLOBALS['TEMPLATE_PATH'] . '/setup');
+    $caller_path = dirname( realpath( basename( $_SERVER['PHP_SELF'] ) ) );
+
+	// stop application if not the correct version of PHP
+	if( phpversion() < '5' ){
+		echo "You will need PHP 5 and above to run Template Blocks";
+	  exit;
+	}
+
+    // redirect if there is a setup folder 
+    if ( file_exists( $setup_folder ) && $setup_folder != $caller_path && !$_REQUEST['del-setup'] ) {
+	  header('Refresh: 0;url=/' . $GLOBALS['TEMPLATE_URI'] .'/setup/index.php');
+	  exit;
+    }
+
+    // don't accept direct requests of the template index file
+    if( realpath( basename( $_SERVER['PHP_SELF'] ) ) ==  realpath( $GLOBALS['TEMPLATE_PATH'] . '/index.php' ) ) {
+	  header('Refresh: 0;url=/');
+	  exit;
+    }
+
+  }
+
+  # Convert a file path to a URI
+  function getURI( $file_path ){
+   $file_uri = str_replace('\\', '/', substr( $file_path, strlen($GLOBALS['DOCUMENT_ROOT']) ) );
+
+   return $file_uri;
   }
 
   # Count dimensions of a multi-array
@@ -135,8 +193,8 @@ class Common {
   function delTree($f) {
     if (is_dir($f)) {
       foreach(glob($f.'/*') as $sf) {
-        if (is_dir($sf) && !is_link($sf)) {
-          $this->delTree($sf);
+        if (is_dir( realpath($sf) ) && !is_link($sf)) {
+          $this->delTree( realpath($sf) );
         } else {
           unlink($sf);
         } 
@@ -147,10 +205,9 @@ class Common {
 
   # Delete setup files
   function delSetup(){
-    global $config;
-    
+
 	//compile the setup directory
-    $dir = $_SERVER['DOCUMENT_ROOT'] . '/' . $config['Template_dir'] . '/setup';
+    $dir = realpath( $GLOBALS['TEMPLATE_PATH'] . '/setup');
 	
 	// start the deletion process
 	if(is_dir($dir)) {
