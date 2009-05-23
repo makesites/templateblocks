@@ -1,0 +1,153 @@
+/* Main Tags */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  height: 100%;
+}
+
+body {
+  background: #fff url(../images/back.gif) center repeat-y;
+  font: normal 14px Arial, Verdana, sans serif;
+}
+
+a {
+  color: #036;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+p {
+  margin-bottom: 8px;
+}
+
+.line {
+  height: 1px;
+  background: #aaa;
+}
+
+.line hr {
+  display: none; 
+}
+
+
+/* Layout */
+
+#container {
+  width: 940px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+#header {
+  height: 120px;
+  background: #def;
+  border-bottom: solid 1px #ccc;
+}
+
+#header #logo {
+  font-size: 60px;
+  padding: 20px;
+}
+
+#topbar {
+  height: 30px;
+  background: #eee;
+  border-bottom: solid 1px #ccc;
+}
+
+#topbar ul {
+  list-style-type: none;
+  float: right;
+}
+
+#topbar li {
+  display: inline;
+}
+
+#topbar li a {
+  display: block;
+  float: left;
+  width: 100px;
+  height: 30px;
+  text-align: center;
+}
+
+#topbar li a:hover {
+  text-decoration: none;
+  background: #123;
+  color: #fff;
+}
+
+#topbar li span {
+  display: block;
+  margin-top: 7px;
+}
+
+#sidebar {
+  float: left;
+  width: 200px;
+  min-height: 100%;
+  background: #eee;
+}
+
+#sidebar p{
+  margin: 8px;
+}
+
+#menu {
+  list-style-type: none;
+  margin: 8px; 
+}
+
+#menu a{
+  display: block;
+  padding: 8px;
+  border: solid 1px #eee;
+  background: #ccc;
+  color: #036;
+  text-align: center;
+  text-decoration: none;
+}
+
+#menu a:hover {
+  background: #123;
+  color: #eee;
+}
+
+#content {
+  float: right;
+  width: 700px;
+  margin: 8px;
+}
+
+#footer {
+  clear: both;
+  padding: 8px;
+  border-top: solid 1px #999;
+  text-align: center;
+}
+
+#footer li {
+  display: inline;
+  margin: 0 8px;
+}
+
+#footer li a {
+  text-decoration: underline;
+}
+
+/* Other Styles */
+
+.credit {
+  text-align: left;
+  font-size: 10px;
+}
+
+

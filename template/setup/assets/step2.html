@@ -1,0 +1,31 @@
+<h2>Step 2: Database info</h2>
+
+<div id="info">
+  <p>This is some crusial information needed for Template Blocks to run on your site. You will have to setup a database manually and link it with a username access and enter this information below.</p>
+
+  <p>If you have more than one scripts using this database you may want to enter a prefix string in front of every table name for better organizing and to avoid overwriting existing data.</p>
+
+  <p id="feedback"></p>
+</div>
+
+<form action="index.php" method="post" name="setup-step2" id="setup-step2" class="settings" onsubmit="validateForm(this); return false;">
+  <label for="website_title">Server: <span class="red">*</span></label>
+  <input type="text" name="database_server" id="database_server" value="$Database_server" class="textfield" />
+  <label for="section_slug">Database: <span class="red">*</span></label>
+  <input type="text" name="database_name" id="database_name" value="$Database_name" class="textfield" />
+  <label for="favicon">Username: <span class="red">*</span></label>
+  <input type="text" name="database_user" id="database_user" value="$Database_user" class="textfield" />
+  <label for="admin_tips">Password: <span class="red">*</span></label>
+  <input type="text" name="database_password" id="database_password" value="$Database_password" class="textfield" />
+  <label for="admin_tips">Table_Prefix:</label>
+  <input type="text" name="database_table_prefix" id="database_table_prefix" value="$Database_table_prefix" class="textfield" />
+ 
+  <input type="hidden" name="step" id="step" value="2" />
+  <input type="hidden" name="mode" id="mode" value="write" />
+  <div class="clear"><!-- --></div>
+  <div class="submit-buttons">
+    <input type="submit" value="Onto Step 3" />
+    <input type="submit" value="Back" onclick="gotoPage('step1'); return false;" />
+  </div>
+
+</form>

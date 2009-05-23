@@ -1,0 +1,81 @@
+<h2 class="float-left">$heading</h2>
+
+<div class="actions">
+  <a href="javascript:void(0)" onclick="gotoPage('templates&action=edit')">Add New</a> | 
+  <a href="javascript:void(0)" onclick="gotoPage('templates')">Back</a>
+</div>
+
+<div id="info">
+$info
+  <div id="feedback"></div>
+</div>
+
+<form action="admin.php" method="post" name="templates-edit" id="templates-edit" onsubmit="validateForm(this); return false;">
+  <label>ID:</label> <span class="textfield">$id</span>
+  <input type="hidden" name="template_id" id="template_id" value="$id" />
+  <label for="template_title">Title:</label>
+  <input type="text" name="template_title" id="template_title" value="$title" class="textfield" />
+  <label for="template_doctype">Document Type:</label>
+  <select name="template_doctype" id="template_doctype">
+{{LIST_DOCTYPES}}
+  </select>
+
+  <input type="hidden" name="template_blocks" id="template_blocks" value="$blocks" />
+  <input type="hidden" name="page" id="page" value="templates" />
+  <input type="hidden" name="action" id="action" value="$action" />
+
+  <div class="clear"><!-- --></div>
+  <div class="submit-buttons">
+    <input type="submit" value="$button_label" />
+    <input type="submit" value="Delete" onclick="deleteEntry(getElementById('templates-edit')); return false;" />
+  </div>
+
+</form>
+
+<h2>Your Layout:</h2>
+
+<div id="template-layout">  
+  <p>&lt;HEAD&gt;</p>
+  <ul id="blocks-head">
+{{BLOCKS_HEAD}}
+  </ul>
+
+  <p>&lt;/HEAD&gt;</p>
+  <p>&lt;BODY&gt;</p>
+  <ul id="blocks-body">
+{{BLOCKS_BODY}}
+  </ul>
+  <p>&lt;/BODY&gt;</p>
+
+</div>
+  <div style="clear:both;"></div>
+</div>
+
+<p id="blocks-info"></p>
+
+
+<h3>Other Blocks:</h3>
+
+<!-- future support:  sort by: <a>type</a> | <a>id</a> | <a>alphabetical</a> -->
+
+  <ul id="blocks-other">
+{{BLOCKS_OTHER}}
+  </ul>
+
+
+<script type="text/javascript">
+//<![CDATA[
+{{BLOCKS_DRAGGABLE}}
+
+Sortable.create("blocks-head", { onChange: function(){ updateBlocksField()} })
+Sortable.create("blocks-body", { onChange: function(){ updateBlocksField()} })
+
+Droppables.add("blocks-head", {
+  accept: ['item_CSS','item_HTML','item_PHP','item_JavaScript'], hoverclass:'back-green', 
+  onDrop: function(element){ Droppables.remove(element); removeBlock(element.id, Element.classNames(element), 'blocks-head'); }})
+
+Droppables.add("blocks-body", {
+  accept: ['item_CSS','item_HTML','item_PHP','item_JavaScript'], hoverclass:'back-green', 
+  onDrop: function(element){ Droppables.remove(element); removeBlock(element.id, Element.classNames(element), 'blocks-body'); }})
+//]]>
+</script>

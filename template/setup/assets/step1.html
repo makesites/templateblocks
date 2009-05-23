@@ -1,0 +1,27 @@
+<h2>Step 1: Website info</h2>
+
+<div id="info">
+  <p>Below is some basic information about your website to get things started. Although not all fields are essential you are encouraged for example to have an RSS feed and a favicon for your website.</p>
+
+  <p id="feedback"></p>
+</div>
+
+<form action="index.php" method="post" name="setup-step1" id="setup-step1" class="settings" onsubmit="validateForm(this); return false;">
+  <label for="website">Website Title: <span class="red">*</span></label>
+  <input type="text" name="website" id="website" value="$Website" class="textfield" />
+  <label for="template_dir">Template directory: <span class="red">*</span></label>
+  <input type="text" name="template_dir" id="template_dir" value="$Template_dir" class="textfield" />
+  <label for="rss_feed">Main RSS feed:</label>
+  <input type="text" name="rss_feed" id="rss_feed" value="$Rss_feed" class="textfield" />
+  <label for="favicon">Favicon:</label>
+  <input type="text" name="favicon" id="favicon" value="$Favicon" class="textfield" />
+
+  <input type="hidden" name="step" id="step" value="1" />
+  <input type="hidden" name="mode" id="mode" value="write" />
+  <div class="clear"><!-- --></div>
+  <div class="submit-buttons">
+    <input type="submit" value="Onto Step 2" />
+    <input type="submit" value="Back" onclick="gotoPage('welcome'); return false;" />
+  </div>
+
+</form>

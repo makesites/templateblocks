@@ -1,0 +1,34 @@
+<h2 class="float-left">$heading</h2>
+
+<div class="actions">
+  <a href="javascript:void(0)" onclick="gotoPage('blocks&action=edit')">Add New</a> | 
+  <a href="javascript:void(0)" onclick="gotoPage('blocks')">Back</a>
+</div>
+
+<div id="info">
+$info
+  <div id="feedback"></div>
+</div>
+
+<form action="admin.php" method="post" name="blocks-edit" id="blocks-edit" onsubmit="validateForm(this); return false;">
+  <label>ID:</label> <span class="textfield">$id</span>
+  <input type="hidden" name="block_id" id="block_id" value="$id" />
+  <label for="block_title">Title:</label>
+  <input type="text" name="block_title" id="block_title" value="$title" class="textfield" />
+  <label for="block_title">Type:</label>
+  <select name="block_type" id="block_type" value="$type" onchange="changeContent(this.value)">
+{{LIST_BLOCK_TYPES}}
+  </select>
+  <label for="block_content">Content:</label>
+  <textarea name="block_content" id="block_content" class="content-wide">$content</textarea>
+
+  <input type="hidden" name="page" id="page" value="blocks" />
+  <input type="hidden" name="action" id="action" value="$action" />
+  
+  <div class="clear"><!-- --></div>
+  <div class="submit-buttons">
+    <input type="submit" value="$button_label" />
+    <input type="submit" value="Delete" onclick="deleteEntry(getElementById('blocks-edit')); return false;" />
+  </div>
+
+</form>

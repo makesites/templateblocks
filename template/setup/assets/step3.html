@@ -1,0 +1,34 @@
+<h2>Step 3: Template Administration info</h2>
+
+<div id="info">
+  <p>Here you enter the login details you want to use to access the Template Blocks control panel.</p>
+
+  <p>The help tips are recommended for first-time users as they provide step-by-step assistance while using the administration interface.</p>
+
+  <p id="feedback"></p>
+</div>
+
+<form action="index.php" method="post" name="setup-step3" id="setup-step3" class="settings" onsubmit="validateForm(this); return false;">
+  <label for="admin_user">Admin User: <span class="red">*</span></label>
+  <input type="text" name="admin_user" id="admin_user" value="$Admin_user" class="textfield" />
+  <label for="admin_password">Admin Password: <span class="red">*</span></label>
+  <input type="text" name="admin_password" id="admin_password" value="$Admin_password" class="textfield" />
+  <label for="admin_tips">Show Help tips:</label>
+  <input type="checkbox" name="admin_tips" id="admin_tips" class="float-left" style="margin-top: 10px;" {{CHECKED}}/>
+
+  <input type="hidden" name="step" id="step" value="3" />
+  <input type="hidden" name="mode" id="mode" value="write" />
+  <div class="clear"><!-- --></div>
+  <div class="submit-buttons">
+    <input type="submit" value="Let's Finish" />
+    <input type="submit" value="Back" onclick="gotoPage('step2'); return false;" />
+  </div>
+
+</form>
+
+
+
+<div id="info">
+  
+  
+</div>
