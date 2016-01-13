@@ -597,7 +597,7 @@ class Admin {
 	}
 	// now let's test the session...
     session_start();
-	if( session_is_registered( "TemplateBlocks-Admin" ) && session_is_registered( "TemplateBlocks-Password" ) )
+	if( isset( $_SESSION["TemplateBlocks-Admin"] ) && isset( $_SESSION["TemplateBlocks-Password"] ) )
 	{
 		if( ($_SESSION["TemplateBlocks-Admin"] == $config['Admin_user']) && ($_SESSION["TemplateBlocks-Password"] == $config['Admin_password']) ) {
 		  $login = true;
@@ -629,16 +629,16 @@ class Admin {
 		  exit();
 		}
         session_start();
-		session_register( "TemplateBlocks-Admin" );
-		session_register( "TemplateBlocks-Password" );
+		/*session_register( "TemplateBlocks-Admin" );
+		session_register( "TemplateBlocks-Password" );*/
 		$_SESSION["TemplateBlocks-Admin"] = $_REQUEST['username'];
 		$_SESSION["TemplateBlocks-Password"] = $_REQUEST['password'];
 		$login = true;
 		exit();
 	} else {
 		session_start();
-		session_unregister( "TemplateBlocks-Admin" );
-		session_unregister( "TemplateBlocks-Password" );
+		unset($_SESSION["TemplateBlocks-Admin"] );
+		unset($_SESSION["TemplateBlocks-Password"] );
 		$login = false;
 	}
   }
